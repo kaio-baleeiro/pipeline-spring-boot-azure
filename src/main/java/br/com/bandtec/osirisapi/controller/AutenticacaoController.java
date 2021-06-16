@@ -1,7 +1,7 @@
 package br.com.bandtec.osirisapi.controller;
 
 import br.com.bandtec.osirisapi.dto.TokenDto;
-import br.com.bandtec.osirisapi.dto.UsuarioAcessoRequest;
+import br.com.bandtec.osirisapi.dto.request.UsuarioAcessoRequest;
 import br.com.bandtec.osirisapi.service.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

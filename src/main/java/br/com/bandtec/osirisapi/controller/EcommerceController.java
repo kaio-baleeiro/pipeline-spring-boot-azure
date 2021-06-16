@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/ecommerces")
 @AllArgsConstructor
@@ -20,20 +22,20 @@ public class EcommerceController {
     }
 
     @PostMapping
-    public ResponseEntity postEcommerce(@RequestBody Ecommerce novoEcommerce) {
+    public ResponseEntity postEcommerce(@RequestBody @Valid Ecommerce novoEcommerce) {
         return ResponseEntity.status(201).body(ecommerceService.inserirEcommerce(novoEcommerce));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{idEcommerce}")
     public ResponseEntity deleteEcommerce(@PathVariable int idEcommerce) {
        ecommerceService.deletarEcommerce(idEcommerce);
         return ResponseEntity.status(200).build();
     }
 
-    @PutMapping("/{idEcommerce}")
+    @PostMapping("/{idEcommerce}")
     public ResponseEntity atualizarEcommerce(
             @PathVariable Integer idEcommerce,
-            @RequestBody Ecommerce ecommerce) {
+            @RequestBody @Valid Ecommerce ecommerce) {
         return ResponseEntity.status(200).body(ecommerceService.atualizarEcommerce(idEcommerce, ecommerce));
     }
 }

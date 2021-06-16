@@ -7,7 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,20 +23,23 @@ public class Usuario implements UserDetails {
     private Integer idUsuario;
 
     @NotBlank
+    @Size(min = 5, max = 45)
     private String nomeCompleto;
 
     @NotBlank
+    @Size(min = 4, max = 8)
     private String loginUsuario;
 
     @NotBlank
+//    @Size(min = 8, max = 16)
     private String senha;
 
-    @NotBlank
-    @Positive
+    @NotNull
     @ManyToOne
     private Ecommerce ecommerce;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @Transient
     private List<Perfil> perfis = new ArrayList<>();
 
     @Override
@@ -71,5 +75,17 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUsuario=" + idUsuario +
+                ", nomeCompleto='" + nomeCompleto + '\'' +
+                ", loginUsuario='" + loginUsuario + '\'' +
+                ", senha='" + senha + '\'' +
+                ", ecommerce=" + ecommerce +
+                ", perfis=" + perfis +
+                '}';
     }
 }

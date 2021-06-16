@@ -2,6 +2,7 @@ package br.com.bandtec.osirisapi.controller;
 
 import br.com.bandtec.osirisapi.domain.Usuario;
 import br.com.bandtec.osirisapi.dto.request.UsuarioAcessoRequest;
+import br.com.bandtec.osirisapi.dto.request.UsuarioAtualizacaoRequest;
 import br.com.bandtec.osirisapi.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,16 +34,11 @@ public class UsuarioController {
         return ResponseEntity.status(200).build();
     }
 
-    @PutMapping("/{idUsuario}")
+    @PostMapping("/{idUsuario}")
     public ResponseEntity putUsuario(
             @PathVariable int idUsuario,
-            @RequestBody Usuario usuario) {
+            @RequestBody @Valid UsuarioAtualizacaoRequest usuario) {
         return ResponseEntity.status(201).body(usuarioService.atualizarUsuario(idUsuario ,usuario));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity loginUsuario(@RequestBody UsuarioAcessoRequest usuarioAcessoRequest) {
-        return ResponseEntity.status(200).body(usuarioService.logarUsuario(usuarioAcessoRequest));
     }
 
     @GetMapping("/logoff")

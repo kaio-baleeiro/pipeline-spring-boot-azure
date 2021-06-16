@@ -1,20 +1,20 @@
 package br.com.bandtec.osirisapi.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Evento {
 
     @Id
@@ -39,8 +39,10 @@ public class Evento {
     @PastOrPresent
     private LocalDateTime dataCompra;
 
+    @JsonIgnore
+    private LocalDate dataInclusao;
+
     @NotNull
-    @Positive
     @ManyToOne
     private Ecommerce ecommerce;
 
@@ -48,7 +50,6 @@ public class Evento {
     private Cupom cupom;
 
     @NotNull
-    @Positive
     @OneToOne
     private DominioStatus dominioStatus;
 }

@@ -1,13 +1,13 @@
 package br.com.bandtec.osirisapi.controller;
 
 import br.com.bandtec.osirisapi.domain.Evento;
-import br.com.bandtec.osirisapi.repository.EventoRepository;
 import br.com.bandtec.osirisapi.service.EventoService;
-import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,17 +20,21 @@ public class EventoController {
     @GetMapping
     public ResponseEntity getEventos() {
 
-        List<Evento> eventos = eventoService.getEventos();
-        if (eventos.isEmpty()){
-            return ResponseEntity.status(204).build();
-        }
-        return ResponseEntity.status(200).body(eventos);
+        return ResponseEntity.status(200).body(eventoService.getEventos());
     }
 
     @PostMapping
-    public ResponseEntity postEvento(@RequestBody Evento novoEvento) {
+    public ResponseEntity postEvento(@RequestBody @Valid Evento novoEvento, HttpServletRequest httpRequest) {
 
-        return ResponseEntity.status(201).body(eventoService.inserirEvento(novoEvento));
+        return ResponseEntity.status(202).header(
+                "protocolo",
+                eventoService.inserirEventoAssincrono(novoEvento)).build();
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity postEventos(@RequestBody List<@Valid Evento> eventoList){
+        eventoList.forEach(eventoService::inserirEvento);
+        return ResponseEntity.status(201).build();
     }
 
     @DeleteMapping("/{idEvento}")
@@ -42,8 +46,32 @@ public class EventoController {
     @PutMapping("/{idEvento}")
     public ResponseEntity atualizarEvento(
             @PathVariable Integer idEvento,
-            @RequestBody Evento evento) {
+            @RequestBody @Valid Evento evento) {
         return ResponseEntity.status(200).body(eventoService.atualizarEvento(idEvento, evento));
+    }
+
+    @GetMapping("/protocolos/{idProtocolo}")
+    public ResponseEntity getEventoPorProtocolo(@PathVariable String idProtocolo){
+
+        return ResponseEntity.status(200).body(eventoService.getEventoProtocolo(idProtocolo));
+    }
+
+    @GetMapping("/protocolos")
+    public ResponseEntity getEventosProtocolo(){
+
+        return ResponseEntity.status(200).body(eventoService.getEventosProtocolo());
+    }
+
+    @PutMapping
+    public ResponseEntity putDesfazer(){
+        eventoService.desfazerEvento();
+
+        return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("/com-sem-cupom")
+    public ResponseEntity getSemCupom(){
+        return ResponseEntity.status(200).body(eventoService.getEventosSemCupom());
     }
 
 }

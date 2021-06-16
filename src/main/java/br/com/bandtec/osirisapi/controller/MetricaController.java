@@ -1,13 +1,7 @@
 package br.com.bandtec.osirisapi.controller;
 
-import br.com.bandtec.osirisapi.domain.Cupom;
-import br.com.bandtec.osirisapi.domain.Evento;
-import br.com.bandtec.osirisapi.repository.AcessoRepository;
-import br.com.bandtec.osirisapi.repository.CupomRepository;
-import br.com.bandtec.osirisapi.repository.EventoRepository;
+import br.com.bandtec.osirisapi.dto.barChart.EventoAcessoChartResponse;
 import br.com.bandtec.osirisapi.service.MetricaService;
-import br.com.bandtec.osirisapi.views.CupomMaisUsadoView;
-import br.com.bandtec.osirisapi.views.RanqueCategoriaView;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class MetricaController {
 
-    private final AcessoRepository acessoRepository;
-    private final EventoRepository eventoRepository;
-    private final CupomRepository cupomRepository;
     private final MetricaService metricaService;
 
     @GetMapping("/ultima-semana")
@@ -72,5 +63,12 @@ public class MetricaController {
         return ResponseEntity.status(200).body(metricaService.getComprasSemCupom());
     }
 
+    @GetMapping("/dados-grafico-barra")
+    public ResponseEntity getAcessosEventosUltimaSemana() {
+        List<EventoAcessoChartResponse> responseList = metricaService.getAcessosEventosUltimaSemana();
 
+        if (responseList.isEmpty()) return ResponseEntity.status(204).build();
+
+        return ResponseEntity.status(200).body(responseList);
+    }
 }

@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,7 +30,10 @@ public class Meta {
     private Double valor;
 
     @NotNull
-    @Positive
+    @PositiveOrZero
+    private Integer tipo;
+
+    @NotNull
     @ManyToOne
     private Ecommerce ecommerce;
 }

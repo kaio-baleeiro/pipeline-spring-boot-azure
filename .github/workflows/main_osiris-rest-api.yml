@@ -29,14 +29,9 @@ jobs:
     - name: Generating JAR
       run: mvn package
 
-#     - name: Upload artifact for deployment job
-#       uses: actions/upload-artifact@v2
-#       with:
-#         name: java-app
-#         path: '${{ github.workspace }}/target/*.jar'
-        
-#     - name: Docker Login
-#       uses: docker/login-action@v1.10.0
-#       with:
-#         username: ${{ DOCKER_CREDENTIALS_ID_DOCKER }}
-#         password: ${{ DOCKER_CREDENTIALS_PASSWORD }}
+     - name: Publish to Registry
+       uses: DrSkunk/gp-docker-action@1.1.9
+       with:
+         github-token: ${{ secrets.GITHUB_TOKEN }}
+         image-name: osiris-rest-api
+

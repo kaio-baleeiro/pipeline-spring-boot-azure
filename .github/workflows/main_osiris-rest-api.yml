@@ -37,3 +37,33 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           image-name: osiris-rest-api
+  
+  deploy-dev:
+    runs-on: ubuntu:latest
+    environment:
+      name: dev
+      url: 'localhost'
+    needs: build
+    steps:
+      - name: Echo Deploy DEV
+        run: echo deploy DEV
+  
+  deploy-hml:
+    runs-on: ubuntu:latest
+    environment:
+      name: hml
+      url: 'localhost'
+    needs: deploy-dev
+    steps:
+      - name: Echo Deploy HML
+        run: echo deploy HML
+  
+  deploy-prod:
+    runs-on: ubuntu:latest
+    environment:
+      name: prod
+      url: 'localhost'
+    needs: deploy-hml
+    steps:
+      - name: Echo Deploy PROD
+        run: echo deploy PROD

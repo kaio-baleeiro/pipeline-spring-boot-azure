@@ -16,22 +16,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Java version
-      uses: actions/setup-java@v1
-      with:
-        java-version: '8'
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '8'
 
-    - name: Build with Maven
-      run: mvn clean install
-      
-    - name: Generating JAR
-      run: mvn package
+      - name: Build with Maven
+        run: mvn clean install
 
-     - name: Publish to Registry
-       uses: DrSkunk/gp-docker-action@1.1.9
-       with:
-         github-token: ${{ secrets.GITHUB_TOKEN }}
-         image-name: osiris-rest-api
+      - name: Generating JAR
+        run: mvn package
 
+      - name: Build and publish Docker Image to new GitHub Packages Registry
+        uses: DrSkunk/gp-docker-action@1.1.9
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          image-name: osiris-rest-api

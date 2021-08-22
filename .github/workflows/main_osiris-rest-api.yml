@@ -28,6 +28,9 @@ jobs:
 
       - name: Generating JAR
         run: mvn package
+        
+      - name: Mostrando o Diretório
+        run: ls -la target/
 
       - name: Build and publish Docker Image to new GitHub Packages Registry
         uses: DrSkunk/gp-docker-action@1.1.9

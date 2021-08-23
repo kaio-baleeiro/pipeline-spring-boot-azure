@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: dev
-      url: 'localhost'
+      url: 'localhost.com'
     needs: build
     steps:
       - name: Echo Deploy DEV
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: hml
-      url: 'localhost'
+      url: 'localhost.com'
     needs: deploy-dev
     steps:
       - name: Echo Deploy HML
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: prod
-      url: 'localhost'
+      url: 'localhost.com'
     needs: deploy-hml
     steps:
       - name: Echo Deploy PROD

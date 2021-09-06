@@ -31,6 +31,9 @@ jobs:
         
       - name: Mostrando o Diretório
         run: ls -la target/
+          
+      - name: Versionamento da aplicação
+        uses: brpaz/action-semantic-release@v1
 
       - name: Build and publish Docker Image to new GitHub Packages Registry
         uses: DrSkunk/gp-docker-action@1.1.9

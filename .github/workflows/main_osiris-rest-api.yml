@@ -40,6 +40,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           image-name: osiris-rest-api
+          image-tag: ${{ GITHUB_RUN_NUMBER }}
   
   deploy-dev:
     runs-on: ubuntu-latest
